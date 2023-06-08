@@ -57,3 +57,46 @@ describe('Домашнее задание к лекции 5 «Классы». Д
     });
   });
 });
+
+class Student {
+  constructor(name) {
+    this.name = name;
+    this.marks = {};
+  }
+
+  addMark(mark, subject) {
+    if (mark < 2 || mark > 5) {
+      return;
+    }
+
+    if (!this.marks.hasOwnProperty(subject)) {
+      this.marks[subject] = [];
+    }
+
+    this.marks[subject].push(mark);
+  }
+
+  getAverageBySubject(subject) {
+    if (!this.marks.hasOwnProperty(subject)) {
+      return 0;
+    }
+
+    const marks = this.marks[subject];
+    const sum = marks.reduce((total, mark) => total + mark, 0);
+    return sum / marks.length;
+  }
+
+  getAverage() {
+    const subjects = Object.keys(this.marks);
+    const totalMarks = subjects.reduce((total, subject) => {
+      const average = this.getAverageBySubject(subject);
+      return total + average;
+    }, 0);
+
+    if (subjects.length === 0) {
+      return 0;
+    }
+
+    return totalMarks / subjects.length;
+  }
+}
